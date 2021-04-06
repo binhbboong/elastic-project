@@ -111,6 +111,32 @@ module.exports = {
 
             res.send(result.slice(0, 10));
         }).catch(next);
-    }
+    },
+
+    listCountries(req, res, next) {
+        esclient.search({
+            index,
+            type,
+            body: {
+                query: {
+                    match_all: {},
+                },
+                aggs : {
+                    countries : {
+                        terms : { field : "countryRegion",  "size" : 500 }
+                    }
+                },
+                size: 0,
+            }
+        }).then((data) => {
+            const buckets = data.aggregations.countries.buckets
+            result = Object.keys(buckets).map(function(key) {
+                return buckets[key].key
+            })
+            res.send(result);
+        }).catch(next);
+    },
+
+    
 
 };
