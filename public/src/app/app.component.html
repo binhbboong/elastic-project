@@ -1,0 +1,71 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1 class="header-title-page">
+    COVID 19 - DATA
+    <i class="fa fa-search" aria-hidden="true"></i>
+  </h1>
+  <div class="serverStatus" data-toggle="tooltip" data-placement="right" title="Status of elasticsearch cluster on server">
+    <div *ngIf="serverHealthResponse; else serverHealthStatus_content_tpl">
+      SERVER IS UP&nbsp;
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </div>
+    <ng-template #serverHealthStatus_content_tpl>
+      SERVER IS DOWN&nbsp;
+      <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+    </ng-template>
+  </div>
+</div>
+<div class="container">
+  <div class="row lg-margin">
+    <div class="col-sm">
+      <form>
+        <div class="form-group">
+          <label for="inputSearchText">SEARCH FOR :</label>
+          <input type="text" class="form-control" id="inputSearchText" name="searchText" [(ngModel)]="searchText" placeholder="What are you looking for ?">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-info" (click)="search()">
+            <span class="glyphicon glyphicon-search"></span> Search
+          </button>
+          <hr>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <pre>{{ productResponse | json }}</pre>
+  </div> -->
+  <div class="row" *ngIf="dataResponse.length > 0; else results_empty_content_tpl">
+    <div class="col-sm">
+      <table class="table table-sm table-inverse table-bordered results">
+        <thead>
+          <tr class="table-header">
+            <th>#</th>
+            <th>COUNTRY</th>
+            <th>CONFIRMED</th>
+            <th>DEATHS</th>
+            <th>ACTIVE</th>
+            <th>RECOVERED</th>
+            <th>TIMESTAMP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let elt of dataResponse, let ind = index;" [ngClass]="(ind%2==0)?'':'bg-info-custom'">
+            <th scope="row">{{ ind + 1 }}</th>
+            <td>{{ elt.countryRegion }}</td>
+            <td>{{ elt.confirmed }}</td>
+            <td>{{ elt.deaths }}</td>
+            <td>{{ elt.active }}</td>
+            <td>{{ elt.recovered }}</td>
+            <td>{{ elt.lastUpdate }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <ng-template #results_empty_content_tpl>
+    <div class="text-center">
+      No results ...
+    </div>
+  </ng-template>
+</div>
