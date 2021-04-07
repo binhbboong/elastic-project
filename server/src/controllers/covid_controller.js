@@ -136,7 +136,134 @@ module.exports = {
             res.send(result);
         }).catch(next);
     },
-
     
+    detail(req, res, next) {
+        const { query } = req.body;
+        var { countryRegions, date } = query
+        
+        startDate = Date.parse(date)
+        startTime = new Date(startDate).toISOString()
+        extendedStartTime = new Date(startDate - 24 * 60 * 60 * 1000).toISOString()
+        extendedEndTime = new Date(startDate + 24 * 60 * 60 * 1000).toISOString()
+
+        esclient.search({
+            index,
+            type,
+            body: {
+                query: {
+                    bool: {
+                        must: [
+                            {
+                                terms: {
+                                    countryRegion: countryRegions,
+                                }     
+                            },
+                            {
+                                range: {
+                                    "@timestamp": {
+                                        gte: extendedStartTime,
+                                        lte: extendedEndTime,
+                                    }
+                                }
+                            }
+                        ]
+                    }
+
+                },
+                aggs: {
+                    perDay: {
+                        date_histogram: {
+                            field: '@timestamp',
+                            interval: '1d'
+                        },
+                        aggs: {
+                            groupByField: {
+                                terms: {
+                                    field: 'countryRegion',
+                                    size: 10000,
+                                },
+                                aggs: {
+                                    sumConfirmed: {
+                                        sum: {
+                                            field: 'confirmed',
+                                        }
+                                    },
+                                    sumDeaths: {
+                                        sum: {
+                                            field: 'deaths',
+                                        }
+                                    },
+                                    sumActive: {
+                                        sum: {
+                                            field: 'active',
+                                        }
+                                    },
+                                    sumRecovered: {
+                                        sum: {
+                                            field: 'recovered',
+                                        }
+                                    }
+                                },
+                            }
+                        }
+                    },
+
+                },
+                size: 0,
+                _source: false
+            }
+        }).then((data) => {
+            const allBuckets = data.aggregations.perDay.buckets
+            var result = {}, startData = {}
+            for (const idx in allBuckets) {
+                item = allBuckets[idx]
+                if (item['key_as_string'] === extendedStartTime) {
+                    for (const c_idx in item.groupByField.buckets) {
+                        const country = item.groupByField.buckets[c_idx]
+                        startData[country.key] = {
+                            sumActive: country.sumActive.value,
+                            sumRecovered: country.sumRecovered.value,
+                            sumConfirmed: country.sumConfirmed.value,
+                            sumDeaths: country.sumDeaths.value,
+                        }
+                    }
+                } else if (item['key_as_string'] === startTime) {
+                    for (const c_idx in item.groupByField.buckets) {
+                        const country = item.groupByField.buckets[c_idx]
+                        if (country.key in startData) {
+                            result[country.key] = {
+                                sumActive: country.sumActive.value - startData[country.key].sumActive,
+                                sumRecovered: country.sumRecovered.value - startData[country.key].sumRecovered,
+                                sumConfirmed: country.sumConfirmed.value - startData[country.key].sumConfirmed,
+                                sumDeaths: country.sumDeaths.value - startData[country.key].sumDeaths,
+                            }
+                        } else {
+                            result[country.key] = {
+                                sumActive: country.sumActive.value,
+                                sumRecovered: country.sumRecovered.value,
+                                sumConfirmed: country.sumConfirmed.value,
+                                sumDeaths: country.sumDeaths.value,
+                            }
+                        }
+                    }
+                }
+            }
+            
+            result = Object.keys(result).map(function(key) {
+                return {
+                    name: key, 
+                    data: [
+                        { name: 'active', value: result[key].sumActive },
+                        { name: 'recovered', value: result[key].sumRecovered },
+                        { name: 'confirmed', value: result[key].sumConfirmed },
+                        { name: 'deaths', value: result[key].sumDeaths },
+                    ]
+                }
+            })
+
+            res.send(result);
+        }).catch(next);
+    },
+
 
 };
