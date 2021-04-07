@@ -230,21 +230,22 @@ module.exports = {
                 } else if (item['key_as_string'] === startTime) {
                     for (const c_idx in item.groupByField.buckets) {
                         const country = item.groupByField.buckets[c_idx]
-                        if (country.key in startData) {
-                            result[country.key] = {
-                                sumActive: country.sumActive.value - startData[country.key].sumActive,
-                                sumRecovered: country.sumRecovered.value - startData[country.key].sumRecovered,
-                                sumConfirmed: country.sumConfirmed.value - startData[country.key].sumConfirmed,
-                                sumDeaths: country.sumDeaths.value - startData[country.key].sumDeaths,
-                            }
-                        } else {
-                            result[country.key] = {
-                                sumActive: country.sumActive.value,
-                                sumRecovered: country.sumRecovered.value,
-                                sumConfirmed: country.sumConfirmed.value,
-                                sumDeaths: country.sumDeaths.value,
-                            }
+                        // if (country.key in startData) {
+                        //     result[country.key] = {
+                        //         sumActive: country.sumActive.value - startData[country.key].sumActive,
+                        //         sumRecovered: country.sumRecovered.value - startData[country.key].sumRecovered,
+                        //         sumConfirmed: country.sumConfirmed.value - startData[country.key].sumConfirmed,
+                        //         sumDeaths: country.sumDeaths.value - startData[country.key].sumDeaths,
+                        //     }
+                        // } else {
+                        // if (country.key in ) {
+                        result[country.key] = {
+                            sumActive: country.sumActive.value,
+                            sumRecovered: country.sumRecovered.value,
+                            sumConfirmed: country.sumConfirmed.value,
+                            sumDeaths: country.sumDeaths.value,
                         }
+                        // }
                     }
                 }
             }
