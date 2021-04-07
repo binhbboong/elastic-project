@@ -252,7 +252,7 @@ module.exports = {
             result = Object.keys(result).map(function(key) {
                 return {
                     name: key, 
-                    data: [
+                    series: [
                         { name: 'active', value: result[key].sumActive },
                         { name: 'recovered', value: result[key].sumRecovered },
                         { name: 'confirmed', value: result[key].sumConfirmed },
