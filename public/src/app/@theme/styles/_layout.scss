@@ -1,0 +1,15 @@
+@mixin ngx-layout() {
+  @include media-breakpoint-down(is) {
+    .row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+  }
+}
+
+.button-search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}

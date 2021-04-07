@@ -1,0 +1,32 @@
+<nb-card>
+  <nb-card-header>
+    Analyze data Covid of Country
+  </nb-card-header>
+  <nb-card-body>
+    <form method="post" [formGroup]="formCompareCountry" (ngSubmit)=submit(formCompareCountry.value)>
+      <div class="row">
+        <div class="col-lg-6">
+          <label class="label p-2">Select Country</label>
+          <nb-select multiple placeholder="Multiple Select" formControlName="countries">
+            <nb-option *ngFor="let option of options" [value]="option">
+              {{ option }}
+            </nb-option>
+          </nb-select>
+
+        </div>
+        <div class="col-lg-6">
+          <label class="label p-2">Select Date</label>
+          <input nbInput [nbDatepicker]="formcontrol1" formControlName="date" readonly>
+          <nb-datepicker format="dd.MM.yyyy" #formcontrol1></nb-datepicker>
+        </div>
+      </div>
+      <div class="button-search">
+        <button nbButton status="primary">Submit</button>
+      </div>
+    </form>
+
+    <div class="col-lg-12">
+      <ngx-d3-area-stack></ngx-d3-area-stack>
+    </div>
+  </nb-card-body>
+</nb-card>

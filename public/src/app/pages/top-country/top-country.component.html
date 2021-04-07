@@ -1,0 +1,49 @@
+<nb-card>
+  <nb-card-header>
+    Analyze data Covid of Country
+  </nb-card-header>
+  <nb-card-body>
+    <form method="post" [formGroup]="formTopCountry" (ngSubmit)=submit(formTopCountry.value)>
+      <div class="row">
+        <div class="col-lg-4">
+          <label class="label p-2">Select Status</label>
+          <nb-select placeholder="Form control" formControlName="status" fullWidth>
+            <nb-option value="confirmed">confirmed</nb-option>
+            <nb-option value="deaths">deaths</nb-option>
+            <nb-option value="recovered">recovered</nb-option>
+            <nb-option value="active">active</nb-option>
+          </nb-select>
+        </div>
+        <div class="col-lg-4">
+          <label class="label p-2">From Date</label>
+          <div>
+            <input nbInput fullWidth [nbDatepicker]="formcontrol1" formControlName="fromDay" readonly>
+            <nb-datepicker format="dd.MM.yyyy" #formcontrol1></nb-datepicker>
+            <small class="text-danger"
+              *ngIf="formTopCountry?.hasError('invalidDate') && formTopCountry?.controls?.fromDay?.touched">
+              From Date Should Be Less Than To Date
+            </small>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <label class="label p-2">To Date</label>
+          <div>
+            <input nbInput fullWidth [nbDatepicker]="formcontrol2" formControlName="toDay" readonly>
+            <nb-datepicker format="dd.MM.yyyy" #formcontrol2></nb-datepicker>
+            <small class="text-danger"
+              *ngIf="formTopCountry?.hasError('invalidDate') && formTopCountry?.controls?.toDay?.touched">
+              To Date Should Be Greater Than From Date
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="button-search">
+        <button nbButton status="primary">Submit</button>
+      </div>
+    </form>
+    
+    <div class="col-lg-12">
+      <ngx-d3-bar [result]="result"></ngx-d3-bar>
+    </div>
+  </nb-card-body>
+</nb-card>

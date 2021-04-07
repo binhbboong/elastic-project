@@ -1,0 +1,7 @@
+<nb-card>
+  <nb-card-header>{{title}}</nb-card-header>
+  <nb-card-footer class="text-right">
+    <button nbButton status="danger" (click)="confirmed()" class="mgr10">Yes</button>
+    <button nbButton status="basic" (click)="this.ref.close();">No</button>  
+  </nb-card-footer>
+</nb-card>
