@@ -253,10 +253,10 @@ module.exports = {
                 return {
                     name: key, 
                     series: [
-                        { name: 'Active', value: result[key].sumActive },
-                        { name: 'Recovered', value: result[key].sumRecovered },
-                        { name: 'confirmed', value: result[key].sumConfirmed },
-                        { name: 'Deaths', value: result[key].sumDeaths },
+                        { name: 'Active', value: Math.max(result[key].sumActive, 0) },
+                        { name: 'Recovered', value: Math.max(result[key].sumRecovered, 0) },
+                        { name: 'Confirmed', value: Math.max(result[key].sumConfirmed, 0) },
+                        { name: 'Deaths', value: Math.max(result[key].sumDeaths, 0) },
                     ]
                 }
             })
