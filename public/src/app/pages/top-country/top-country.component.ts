@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as moment from 'moment'
+
 import { MESSAGE } from '../../constants/message';
 import { ApiService } from '../../services/api.service';
 import { HelperService } from '../../services/helper.service';
@@ -60,7 +61,9 @@ export class TopCountryComponent implements OnInit {
       }
     }
     this.apiService.getTopCountry(data).subscribe((res: any) => {
-      this.result = res;
+      if (res && res.length) {
+        this.result = res;
+      }
     }, resError => {
       this.helperService.showError(MESSAGE.ERROR);
     })

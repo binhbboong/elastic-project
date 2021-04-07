@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -6,7 +6,7 @@ import { NbThemeService } from '@nebular/theme';
   template: `
     <ngx-charts-bar-horizontal-2d
       [scheme]="colorScheme"
-      [results]="multi"
+      [results]="result"
       [xAxis]="showXAxis"
       [yAxis]="showYAxis"
       [legend]="showLegend"
@@ -19,80 +19,7 @@ import { NbThemeService } from '@nebular/theme';
   `,
 })
 export class D3AreaStackComponent implements OnDestroy {
-  multi = [{
-    name: 'Germany',
-    series: [{
-      name: '2010',
-      value: 7300000,
-    }, {
-      name: '2011',
-      value: 8940000,
-    }],
-  }, {
-    name: 'USA',
-    series: [{
-      name: '2010',
-      value: 7870000,
-    }, {
-      name: '2011',
-      value: 8270000,
-    }],
-  }, {
-    name: 'France',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-  }, {
-    name: 'France1',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-  }, {
-    name: 'France2',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-  }, {
-    name: 'France3',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-  }, {
-    name: 'France4',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-  }, {
-    name: 'France5',
-    series: [{
-      name: '2010',
-      value: 5000002,
-    }, {
-      name: '2011',
-      value: 5800000,
-    }],
-
-  }];
+  @Input() result: any;
   showLegend = true;
   autoScale = true;
   showXAxis = true;
@@ -100,7 +27,7 @@ export class D3AreaStackComponent implements OnDestroy {
   showXAxisLabel = true;
   showYAxisLabel = true;
   xAxisLabel = 'Country';
-  yAxisLabel = 'Population';
+  yAxisLabel = 'Cases';
   colorScheme: any;
   themeSubscription: any;
 
@@ -108,7 +35,7 @@ export class D3AreaStackComponent implements OnDestroy {
     this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
       const colors: any = config.variables;
       this.colorScheme = {
-        domain: [colors.primaryLight, colors.infoLight, colors.successLight, colors.warningLight, colors.dangerLight],
+        domain: [colors.warningLight, colors.primaryLight, colors.dangerLight, colors.infoLight, colors.successLight],
       };
     });
   }

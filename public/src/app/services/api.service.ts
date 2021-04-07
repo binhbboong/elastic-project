@@ -26,4 +26,9 @@ export class ApiService {
     const url = `http://localhost:3000/api/covid/list-countries`;
     return this.httpClient.get(url);
   }
+
+  getDetailCountry(form) {
+    const url = `http://localhost:3000/api/covid/countries-by-date`;
+    return this.httpClient.post(url, form);
+  }
 }

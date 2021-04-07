@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import * as moment from 'moment'
+
 import { MESSAGE } from '../../constants/message';
 import { ApiService } from '../../services/api.service';
 import { HelperService } from '../../services/helper.service';
@@ -10,6 +12,7 @@ import { HelperService } from '../../services/helper.service';
   styleUrls: ['./compare.component.scss']
 })
 export class CompareComponent implements OnInit {
+  result: any;
   formCompareCountry: FormGroup;
   options: string[];
 
@@ -29,7 +32,7 @@ export class CompareComponent implements OnInit {
   initForm() {
     this.formCompareCountry = this.fb.group({
       countries: [],
-      date: [new Date()]
+      date: [new Date("08-01-2020")],
     })
   }
 
@@ -42,6 +45,17 @@ export class CompareComponent implements OnInit {
   }
 
   submit(formValue) {
-    console.log("🚀 ~ file: homepage.component.ts ~ line 60 ~ HomepageComponent ~ submit ~ formValue", formValue)
-  }
+    const data = {
+      query: {
+        "countryRegions": formValue.countries,
+        "date": moment(formValue.date).format('YYYY-MM-DD')
+      }
+    }
+    this.apiService.getDetailCountry(data).subscribe((res: any) => {
+      if (res && res.length) {
+        this.result = res;
+      }
+    }, resError => {
+      this.helperService.showError(MESSAGE.ERROR);
+    })  }
 }

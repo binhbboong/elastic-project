@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { NbThemeService } from '@nebular/theme';
 
 @Component({
@@ -7,25 +7,13 @@ import { NbThemeService } from '@nebular/theme';
     <ngx-charts-advanced-pie-chart
       [scheme]="colorScheme"
       [label]="'Total Confirmed'"
-      [results]="single">
+      [results]="result">
     </ngx-charts-advanced-pie-chart>
   `,
 })
 export class D3AdvancedPieComponent implements OnDestroy {
-  single = [
-    {
-      name: 'Deaths',
-      value: 8940,
-    },
-    {
-      name: 'Recovered',
-      value: 5000,
-    },
-    {
-      name: 'Active',
-      value: 7200,
-    }
-  ];
+  @Input() result: any;
+
   colorScheme: any;
   themeSubscription: any;
 
