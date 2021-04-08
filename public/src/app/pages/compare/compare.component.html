@@ -1,12 +1,12 @@
 <nb-card>
   <nb-card-header>
-    Analyze data Covid of Country
+    The numbers of cases and deaths or recovered added were calculated by comparing data between many countries
   </nb-card-header>
   <nb-card-body>
     <form method="post" [formGroup]="formCompareCountry" (ngSubmit)=submit(formCompareCountry.value)>
       <div class="row">
         <div class="col-lg-6">
-          <label class="label p-2">Select Country</label>
+          <label class="label p-2">Select Countries</label>
           <nb-select multiple placeholder="Multiple Select" formControlName="countries">
             <nb-option *ngFor="let option of options" [value]="option">
               {{ option }}

@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'Top country',
+    title: 'Top 10 countries',
     icon: 'activity-outline',
     link: '/pages/top-country',
   },
