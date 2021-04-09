@@ -19,17 +19,17 @@ export class ApiService {
   }
 
   getTopCountry(form) {
-    const url = `${environment}api/covid/top`;
+    const url = `${environment.api_url}api/covid/top`;
     return this.httpClient.post(url, form);
   }
 
   getListCountry() {
-    const url = `${environment}api/covid/list-countries`;
+    const url = `${environment.api_url}api/covid/list-countries`;
     return this.httpClient.get(url);
   }
 
   getDetailCountry(form) {
-    const url = `${environment}api/covid/countries-by-date`;
+    const url = `${environment.api_url}api/covid/countries-by-date`;
     return this.httpClient.post(url, form);
   }
 }
