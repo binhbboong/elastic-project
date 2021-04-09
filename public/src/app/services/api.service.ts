@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,17 @@ export class ApiService {
   }
 
   getTopCountry(form) {
-    const url = `http://localhost:3000/api/covid/top`;
+    const url = `${environment}api/covid/top`;
     return this.httpClient.post(url, form);
   }
 
   getListCountry() {
-    const url = `http://localhost:3000/api/covid/list-countries`;
+    const url = `${environment}api/covid/list-countries`;
     return this.httpClient.get(url);
   }
 
   getDetailCountry(form) {
-    const url = `http://localhost:3000/api/covid/countries-by-date`;
+    const url = `${environment}api/covid/countries-by-date`;
     return this.httpClient.post(url, form);
   }
 }
